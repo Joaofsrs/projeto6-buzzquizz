@@ -9,7 +9,77 @@
     <link rel="stylesheet" href="./arte.css">
 </head>
 <body>
-    
+    <div class="container-criacao">
+        <div class="header-criacao">BuzzQuizz</div>
+        <div class="pagina1-criacao desativado">Comece pelo começo
+            <div class="pagina1-infos">
+                <input type="text" placeholder="Título do seu quizz">
+                <input type="text" placeholder="URL da imagem do seu quizz">
+                <input type="text" placeholder="Quantidade de perguntas do quizz">
+                <input type="text" placeholder="Quantidade de níveis do quizz">
+            </div>
+            <button>Prosseguir para criar perguntas</button>
+        </div>
+        <div class="pagina2-criacao desativado">Crie suas perguntas
+            <div class="pergunta-infos">Pergunta 1
+                <div class="pergunta-input margin-top-12px">
+                    <input type="text" placeholder="Texto da pergunta">
+                    <input type="text" placeholder="Cor de fundo da pergunta">
+                </div>
+                <span class="margin-top-28px">Resposta correta</span>
+                <div class="pergunta-input margin-top-24px">
+                    <input type="text" placeholder="Resposta correta">
+                    <input type="text" placeholder="URL da imagem">
+                </div>
+                <span class="margin-top-28px">Respostas incorretas</span>
+                <div class="pergunta-input margin-top-14px">
+                    <input type="text" placeholder="Resposta incorreta 1">
+                    <input type="text" placeholder="URL da imagem 1">
+                </div>
+                <div class="pergunta-input margin-top-33px">
+                    <input type="text" placeholder="Resposta incorreta 2">
+                    <input type="text" placeholder="URL da imagem 2">
+                </div>
+                <div class="pergunta-input margin-top-33px">
+                    <input type="text" placeholder="Resposta incorreta 3">
+                    <input type="text" placeholder="URL da imagem 3">
+                </div>
+            </div>
+            <div class="pergunta-fechada">Pergunta 2
+                <img src="./ícones/editar.png" alt="">
+            </div>
+            <div class="pergunta-fechada">Pergunta 3
+                <img src="./ícones/editar.png" alt="">
+            </div>
+            <button>Prosseguir para criar níveis</button>
+        </div>
+        <div class="pagina3-criacao desativado">Agora, decida os níveis
+            <div class="nivel-infos">Nível 1
+                <div class="nivel-input">
+                    <input type="text" placeholder="Título do nível">
+                    <input type="text" placeholder="% de acerto mínima">
+                    <input type="text" placeholder="URL da imagem do nível">
+                    <input type="text" placeholder="Descrição do nível">
+                </div>
+            </div>
+            <div class="nivel-fechado">Nível 2
+                <img src="./ícones/editar.png" alt="">
+            </div>
+            <div class="nivel-fechado">Nível 3
+                <img src="./ícones/editar.png" alt="">
+            </div>
+            <button>Finalizar Quizz</button>
+        </div>
+        <div class="pagina4-criacao">Seu quizz está pronto!
+            <div class="pagina4-img">
+                <img src="" alt="">
+                <div class="titulo-quiz">Adicionar título do quizz aqui pelo js</div>
+            </div>
+            <button class="acessar">Acessar Quizz</button>
+            <button class="home">Voltar para home</button>
+        </div>
+    </div>
+
     <script src="./javascript/script.js"></script>
 </body>
 </html>
