@@ -18,10 +18,11 @@
 
         <div class="boxCriarQuizz">
             <h3>Você não criou nenhum quizz ainda :(</h3>
-            <button onclick="criarQuizz()">Criar Quizz</button>
+            <button onclick="sucessoQuizz()">Criar Quizz</button>
         </div>
-        <div class="texto"><h2>Todos os Quizzes</h2></div>
+      
         <div class="agrupaQuizzes">
+            <div class="texto" onclick="puxaQuizz()"><h2>Todos os Quizzes</h2></div>
             <div class="quizz"><img src="./imagens/simpsons.png" alt="">
                 <h3> Acerte os personagens corretos dos Simpsons e prove seu amor!</h3>
             </div>
@@ -188,7 +189,7 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./javascript/script.js"></script>
 </body>
 

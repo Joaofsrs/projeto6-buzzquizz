@@ -121,6 +121,14 @@ font-weight: 700;
     margin-bottom: 12px;
     border-radius: 5px;
     position: relative;
+   
+}
+
+.quizz img{
+    width: 340px;
+    height: 181px;
+    border-radius: 5px;
+    
 }
 
 .quizz h3{
@@ -642,6 +650,12 @@ color: #FFFFFF;
         margin: auto;
         margin-bottom: 12px;
     }
+}
+
+.texto{
+    width: 90%;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 759px){
