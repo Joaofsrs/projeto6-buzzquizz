@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,400&display=swap');
+
+body {
+
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 70px;
+}
+
+
+header {
+    position: fixed;
+    top: 0px;
+    z-index: 1;
+    width: 100%;
+    height: 69px;
+    background-color: #EC362D;
+    font-weight: 700;
+    font-size: 37px;
+    line-height: 43px;
+    color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    align-items: center;
+    
+
+}
+
+header h1 {
+   
+    margin-top: 10px;
+
+}
+
+.container_principal {
+    display: flex;
+    text-align: center;
+    margin: auto;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.container_principal h2{
+
+padding-left: 0px;
+font-size: 20px;
+line-height: 23px;
+display: flex;
+align-items: center;
+text-align: center;
+font-weight: 700;
+
+
+}
+
+.boxCriarQuizz {
+    margin-top: 120px;
+    height: 181px;
+    width: 1051px;
+    background: #FAFAFA;
+    border: 1px dashed #D5D5D5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 77px;
+
+}
+
+.boxCriarQuizz h3 {
+    width: 250px;
+    height: 107px;
+    left: 595px;
+    top: 153px;
+    font-size: 20px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    color: #B9B9B9;
+}
+
+.boxCriarQuizz button {
+    box-sizing: border-box;
+    width: 151px;
+    height: 40px;
+    left: 645px;
+    top: 254px;
+    background: #FAFAFA;
+    border: 1px dashed #EC362D;
+    border-radius: 50px;
+    color: #EC362D;
+    
+}
+
+.agrupaQuizzes{
+    
+  
+   width: 1051px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 199px;
+    margin: auto;
+}
+
+.quizz{
+    width: 340px;
+    height: 181px;
+    background-color: aqua;
+    margin-bottom: 12px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.quizz h3{
+position: absolute;
+bottom: 15px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 19px;
+line-height: 22px;
+display: flex;
+align-items: center;
+color: #FFFFFF;
+}
+
+
+@media (max-width: 1100px){
+    .agrupaQuizzes{
+        width: 90%;
+        align-items: center;
+        margin: auto;
+    }
+
+    .boxCriarQuizz{
+        width: 90%;
+    }
+
+    .quizz{
+        min-width: 340px;
+        min-height: 181px;
+        background-color: aqua;
+        margin: auto;
+        margin-bottom: 12px;
+        
+    }
+}
