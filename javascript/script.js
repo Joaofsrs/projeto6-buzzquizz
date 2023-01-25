@@ -1,3 +1,7 @@
-function criarQuizz(){
-//essa função está no onclick do butão "criar Quizz"
+function criarQuizz(mudar) {
+    mudar = document.querySelector('.container_principal')
+
+
+    mudar.classList.add('desativado');
+
 }
