@@ -35,6 +35,12 @@ header {
     align-items: center;
 }
 
+.texto{
+    width: 1051px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
 
 .container_principal h2{
 
@@ -86,7 +92,16 @@ font-weight: 700;
     border-radius: 50px;
     color: #EC362D;
     
+    
 }
+
+.boxCriarQuizz button:hover{
+    cursor: pointer;
+    background-color: #EC362D;
+    color: white;
+}
+
+
 
 .agrupaQuizzes{
     
