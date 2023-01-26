@@ -1,6 +1,6 @@
-let ArmazenaQuizz = document.querySelector(".agrupaQuizzes");
-
 let quiz = undefined;
+
+let ArmazenaQuizz = document.querySelector(".agrupaQuizzes");
 
 function criarQuizz(mudar) {
   mudar = document.querySelector(".container_principal");
@@ -13,12 +13,93 @@ function criarQuizz(mudar) {
   mudar.classList.remove("desativado");
 }
 
+let titulo = undefined;
+let urlImagem = undefined;
+let qtdePerguntas = undefined;
+let qtdeNiveis = undefined;
+
 function passarPagDois(mudar) {
   mudar = document.querySelector(".pagina1-criacao");
   mudar.classList.add("desativado");
 
   mudar = document.querySelector(".pagina2-criacao");
   mudar.classList.remove("desativado");
+
+  titulo = document.getElementById("titulo").value;
+  urlImagem = document.getElementById("p1-url").value;
+  qtdePerguntas = document.getElementById("qtde-perguntas").value;
+  qtdeNiveis = document.getElementById("qtde-niveis").value;
+
+  const criarPerguntas = document.querySelector(".pagina2-criacao");
+
+  for (let i = 0; i < qtdePerguntas; i++) {
+    criarPerguntas.innerHTML += `
+    <div class="pergunta-fechada"><span class='nome-pergunta'>Pergunta ${
+      i + 1
+    }</span>
+        <img src="./ícones/editar.png" alt="" onclick='abrirPergunta(this)'>
+    </div>
+    `;
+  }
+
+  criarPerguntas.innerHTML += `<button onclick="passarPagTres()">Prosseguir para criar níveis</button>`;
+
+  quiz = { title: `${titulo}`, image: `${urlImagem}`, questions: [] };
+}
+
+function passarPagTres(mudar) {
+  mudar = document.querySelector(".pagina2-criacao");
+  mudar.classList.add("desativado");
+
+  mudar = document.querySelector(".pagina3-criacao");
+  mudar.classList.remove("desativado");
+
+  const todasPerguntas = document.querySelectorAll(".pergunta");
+  let perguntas = undefined;
+
+  for (let i = 0; i < todasPerguntas.length; i++) {
+    perguntas = {
+      title: `${todasPerguntas[i].querySelectorAll("input")[0].value}`,
+      color: `${todasPerguntas[i].querySelectorAll("input")[1].value}`,
+      answers: [
+        {
+          text: `${todasPerguntas[i].querySelectorAll("input")[2].value}`,
+          image: `${todasPerguntas[i].querySelectorAll("input")[3].value}`,
+          isCorrectAnswer: true,
+        },
+        {
+          text: `${todasPerguntas[i].querySelectorAll("input")[4].value}`,
+          image: `${todasPerguntas[i].querySelectorAll("input")[5].value}`,
+          isCorrectAnswer: false,
+        },
+      ],
+    };
+
+    if (
+      todasPerguntas[i].querySelectorAll("input")[6].value &&
+      todasPerguntas[i].querySelectorAll("input")[7].value !== ""
+    ) {
+      perguntas.answers.push({
+        text: `${todasPerguntas[i].querySelectorAll("input")[6].value}`,
+        image: `${todasPerguntas[i].querySelectorAll("input")[7].value}`,
+        isCorrectAnswer: false,
+      });
+    }
+
+    if (
+      todasPerguntas[i].querySelectorAll("input")[8].value &&
+      todasPerguntas[i].querySelectorAll("input")[9].value !== ""
+    ) {
+      perguntas.answers.push({
+        text: `${todasPerguntas[i].querySelectorAll("input")[8].value}`,
+        image: `${todasPerguntas[i].querySelectorAll("input")[9].value}`,
+        isCorrectAnswer: false,
+      });
+    }
+  }
+  quiz.questions.push(perguntas);
+
+  console.log(quiz);
 }
 
 function abrirPergunta(elemento) {
@@ -26,6 +107,7 @@ function abrirPergunta(elemento) {
   perguntaFechada.classList.remove("pergunta-fechada");
 
   const pergunta = elemento.parentNode.querySelector(".nome-pergunta");
+
   perguntaFechada.innerHTML = `<div class='pergunta'>
   <div class="pergunta-infos">${pergunta.innerHTML}
                 <div class="pergunta-input margin-top-12px">
@@ -76,8 +158,6 @@ function percorre(promise) {
         <h3> ${titulo}</h3>
     </div>`;
   }
-
-  console.log(perguntaFechada);
 }
 
 puxaQuizz();
