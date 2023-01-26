@@ -121,6 +121,14 @@ font-weight: 700;
     margin-bottom: 12px;
     border-radius: 5px;
     position: relative;
+   
+}
+
+.quizz img{
+    width: 340px;
+    height: 181px;
+    border-radius: 5px;
+    
 }
 
 .quizz h3{
@@ -138,6 +146,7 @@ color: #FFFFFF;
 
 /*--------- Container Quiz ----------*/
 .nome_quizz{
+    width: 100%;
     margin-top: 69px;
     position: relative;
 }
@@ -145,6 +154,14 @@ color: #FFFFFF;
 .nome_quizz img{
     width: 100%;
     min-height: 142px;
+}
+
+.nome_quizz .escurecido{
+    background-color: #000000;
+    opacity: 60%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
 .nome_quizz h2{
@@ -642,6 +659,12 @@ color: #FFFFFF;
         margin: auto;
         margin-bottom: 12px;
     }
+}
+
+.texto{
+    width: 90%;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 759px){
