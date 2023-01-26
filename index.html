@@ -48,15 +48,15 @@
         <div class="header-criacao">BuzzQuizz</div>
         <div class="pagina1-criacao desativado">Comece pelo começo
             <div class="pagina1-infos">
-                <input type="text" placeholder="Título do seu quizz">
-                <input type="text" placeholder="URL da imagem do seu quizz">
-                <input type="text" placeholder="Quantidade de perguntas do quizz">
-                <input type="text" placeholder="Quantidade de níveis do quizz">
+                <input type="text" placeholder="Título do seu quizz" id="titulo">
+                <input type="text" placeholder="URL da imagem do seu quizz" id="p1-url">
+                <input type="text" placeholder="Quantidade de perguntas do quizz" id="qtde-perguntas">
+                <input type="text" placeholder="Quantidade de níveis do quizz" id="qtde-niveis">
             </div>
             <button onclick="passarPagDois()">Prosseguir para criar perguntas</button>
         </div>
         <div class="pagina2-criacao desativado">Crie suas perguntas
-            <div class="pergunta-infos">Pergunta 1
+        <!--  <div class="pergunta-infos">Pergunta 1
                 <div class="pergunta-input margin-top-12px">
                     <input type="text" placeholder="Texto da pergunta">
                     <input type="text" placeholder="Cor de fundo da pergunta">
@@ -78,15 +78,8 @@
                 <div class="pergunta-input margin-top-33px">
                     <input type="text" placeholder="Resposta incorreta 3">
                     <input type="text" placeholder="URL da imagem 3">
-                </div>
+                </div>-->
             </div>
-            <div class="pergunta-fechada">Pergunta 2
-                <img src="./ícones/editar.png" alt="">
-            </div>
-            <div class="pergunta-fechada">Pergunta 3
-                <img src="./ícones/editar.png" alt="">
-            </div>
-            <button onclick="passarPagTres()">Prosseguir para criar níveis</button>
         </div>
         <div class="pagina3-criacao desativado">Agora, decida os níveis
             <div class="nivel-infos">Nível 1

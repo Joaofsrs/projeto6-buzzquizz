@@ -727,6 +727,9 @@ color: #FFFFFF;
         width: 100%;
     }
 
+ .pagina1-infos {
+     width: 375px;
+ }
     .pagina1-infos input {
         width: 341px;
         padding-left: 14px;
