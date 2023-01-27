@@ -236,14 +236,6 @@ color: #FFFFFF;
     font-weight: 700;
 }
 
-.certa p{
-    color: #009C22;
-}
-
-.errada p{
-    color: #FF4B4B;
-}
-
 .opaco{
     opacity: 30%;
 }
