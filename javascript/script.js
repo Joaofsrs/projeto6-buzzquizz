@@ -5,6 +5,11 @@ let numero_Acertos = 0;
 
 let idQuiz;
 
+let titulo = undefined;
+let urlImagem = undefined;
+let qtdePerguntas = undefined;
+let qtdeNiveis = undefined;
+
 function criarQuizz(mudar) {
   mudar = document.querySelector(".container_principal");
   mudar.classList.add("desativado");
@@ -14,12 +19,12 @@ function criarQuizz(mudar) {
 
   mudar = document.querySelector(".pagina1-criacao");
   mudar.classList.remove("desativado");
-}
 
-let titulo = undefined;
-let urlImagem = undefined;
-let qtdePerguntas = undefined;
-let qtdeNiveis = undefined;
+  document.getElementById("titulo").value = "";
+  document.getElementById("p1-url").value = "";
+  document.getElementById("qtde-perguntas").value = "";
+  document.getElementById("qtde-niveis").value = "";
+}
 
 function passarPagDois(mudar) {
   titulo = document.getElementById("titulo").value;
@@ -35,7 +40,10 @@ function passarPagDois(mudar) {
     isNaN(qtdePerguntas) ||
     qtdeNiveis === "" ||
     qtdeNiveis < 2 ||
-    isNaN(qtdeNiveis)
+    isNaN(qtdeNiveis) ||
+    (urlImagem.startsWith("http://") === false &&
+      urlImagem.startsWith("https://") === false) ||
+    urlImagem.includes(".com") === false
   ) {
     return alert("Por favor, preencha os dados corretamente");
   }
@@ -43,8 +51,10 @@ function passarPagDois(mudar) {
   mudar = document.querySelector(".pagina1-criacao");
   mudar.classList.add("desativado");
 
-  mudar = document.querySelector(".pagina2-criacao");
-  mudar.classList.remove("desativado");
+  const p2Criacao = document.querySelector(".pagina2-criacao");
+  p2Criacao.classList.remove("desativado");
+
+  p2Criacao.innerHTML = "Crie suas perguntas";
 
   const criarPerguntas = document.querySelector(".pagina2-criacao");
 
@@ -126,8 +136,13 @@ function passarPagTres(mudar) {
       input[1].value.startsWith("#") === false ||
       input[1].value.replace(/[^a-fA-f0-9#]/g, "") !== input[1].value ||
       input[2].value === "" ||
+      (input[3].value.startsWith("http://") === false &&
+        input[3].value.startsWith("https://") === false) ||
+      input[3].value.includes(".com") === false ||
       input[4] === "" ||
-      input[5] === ""
+      (input[5].value.startsWith("http://") === false &&
+        input[5].value.startsWith("https://") === false) ||
+      input[5].value.includes(".com") === false
     ) {
       return alert("Por favor, preencha os dados corretamente");
     }
@@ -170,6 +185,8 @@ function passarPagTres(mudar) {
   console.log(quiz);
 
   const criarNiveis = document.querySelector(".pagina3-criacao");
+
+  criarNiveis.innerHTML = "Agora, decida os níveis";
 
   for (let i = 0; i < qtdeNiveis; i++) {
     criarNiveis.innerHTML += `
@@ -237,6 +254,9 @@ function finalizarCriacaoQuiz() {
       isNaN(input[1].value) ||
       input[1].value < 0 ||
       input[1].value > 100 ||
+      (input[2].value.startsWith("http://") === false &&
+        input[2].value.startsWith("https://") === false) ||
+      input[2].value.includes(".com") === false ||
       input[3].value.length < 30 ||
       porcentagens.includes("0") === false
     ) {
@@ -258,6 +278,8 @@ function finalizarCriacaoQuiz() {
   document.querySelector(".pagina3-criacao").classList.add("desativado");
   document.querySelector(".pagina4-criacao").classList.remove("desativado");
 
+  document.querySelector(".pagina4-img img").removeAttribute("src");
+
   document
     .querySelector(".pagina4-img img")
     .setAttribute("src", `${urlImagem}`);
@@ -272,8 +294,6 @@ function finalizarCriacaoQuiz() {
 }
 
 function sucessoEnvioQuiz(quiz) {
-  alert("quiz enviado nessa porra");
-
   console.log(quiz.data.id);
 
   idQuiz = quiz.data.id;
