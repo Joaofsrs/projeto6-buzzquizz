@@ -291,10 +291,88 @@ function percorre(promise) {
     let titulo = promise.data[i].title;
     let imagem = promise.data[i].image;
 
-    ArmazenaQuizz.innerHTML += `<div class="quizz"><img src="${imagem}" alt="">
+    ArmazenaQuizz.innerHTML += `<div id="${id}" class="quizz" onclick="getQuizz(this);"><img src="${imagem}" alt="">
         <h3> ${titulo}</h3>
     </div>`;
   }
+}
+
+function carregaQuizz(Quizz){
+    let tela_quizz = document.querySelector(".container_quizz")
+    let elemento_html = '';
+    console.log(Quizz.data);
+
+    tela_quizz.innerHTML += `
+        <div class="nome_quizz">
+            <div class="escurecido"></div>
+            <img src="${Quizz.data.image}">
+            <h2>${Quizz.data.title}</h2>
+        </div>
+        <div class="corpo_quizz">
+            
+        </div>
+    `
+
+    
+    let corpo_pg = document.querySelector(".corpo_quizz");
+
+    /*
+        <div class="resultado_quizz">
+                <div class="top_resultado">
+                    <h3>88% de acerto: Você é praticamente um aluno de Hogwarts!</h3>
+                </div>
+                <div class="corpo_resposta">
+                    <img src="./imagens/resultado.png">
+                    <p>Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão
+                        abaixo para usar o vira-tempo e reiniciar este teste.</p>
+                </div>
+            </div>
+            <div class="botoes_quizz">
+                <button class="reiniciar_quizz">Reiniciar Quizz</button>
+                <button class="voltar_home">Voltar pra home</button>
+            </div>
+    */
+    for(let i = 0; i < Quizz.data.questions.length; i++){
+        
+        elemento_html += `
+        <div class="responder_quizz">
+            <div class="top_responder" style="background-color: ${Quizz.data.questions[i].color};">
+                <h3>${Quizz.data.questions[i].title}</h3>
+            </div>
+            <div class="opcoes">
+        `;
+        for(let j = 0; j < Quizz.data.questions[i].answers.length; j++){
+            elemento_html += `
+                <div class="opcao">
+                    <img src="${Quizz.data.questions[i].answers[j].image}">
+                    <p>${Quizz.data.questions[i].answers[j].text}</p>
+                </div>
+            `;
+        }
+        elemento_html += `
+            </div>
+        </div>
+        `;
+        corpo_pg.innerHTML += elemento_html;
+        elemento_html = '';
+    }
+    console.log(corpo_pg);
+}
+
+function deuCerto(Element_id){
+    const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${Element_id}`);
+    promessa.then(carregaQuizz);
+
+    //style="background-color: #FFFFFF;"
+}
+
+function getQuizz(thisElement){
+    console.log(thisElement.id)
+    const tela_principal = document.querySelector(".container_principal");
+    tela_principal.classList.add("desativado");
+    const tela_quizz = document.querySelector(".container_quizz");
+    tela_quizz.classList.remove("desativado");
+    deuCerto(thisElement.id);
 }
 
 puxaQuizz();
