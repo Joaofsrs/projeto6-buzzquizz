@@ -19,16 +19,29 @@ let qtdePerguntas = undefined;
 let qtdeNiveis = undefined;
 
 function passarPagDois(mudar) {
+  titulo = document.getElementById("titulo").value;
+  urlImagem = document.getElementById("p1-url").value;
+  qtdePerguntas = document.getElementById("qtde-perguntas").value;
+  qtdeNiveis = document.getElementById("qtde-niveis").value;
+
+  if (
+    titulo.length < 20 ||
+    titulo.length > 65 ||
+    qtdePerguntas === "" ||
+    qtdePerguntas < 3 ||
+    isNaN(qtdePerguntas) ||
+    qtdeNiveis === "" ||
+    qtdeNiveis < 2 ||
+    isNaN(qtdeNiveis)
+  ) {
+    return alert("Por favor, preencha os dados corretamente");
+  }
+
   mudar = document.querySelector(".pagina1-criacao");
   mudar.classList.add("desativado");
 
   mudar = document.querySelector(".pagina2-criacao");
   mudar.classList.remove("desativado");
-
-  titulo = document.getElementById("titulo").value;
-  urlImagem = document.getElementById("p1-url").value;
-  qtdePerguntas = document.getElementById("qtde-perguntas").value;
-  qtdeNiveis = document.getElementById("qtde-niveis").value;
 
   const criarPerguntas = document.querySelector(".pagina2-criacao");
 
@@ -37,69 +50,23 @@ function passarPagDois(mudar) {
     <div class="pergunta-fechada"><span class='nome-pergunta'>Pergunta ${
       i + 1
     }</span>
-        <img src="./ícones/editar.png" alt="" onclick='abrirPergunta(this)'>
+        <img src="./ícones/editar.png" alt="" onclick='abrirPergunta(this)' id='edit-pergunta'>
     </div>
     `;
   }
 
   criarPerguntas.innerHTML += `<button onclick="passarPagTres()">Prosseguir para criar níveis</button>`;
 
-  quiz = { title: `${titulo}`, image: `${urlImagem}`, questions: [] };
-}
+  quiz = {
+    title: `${titulo}`,
+    image: `${urlImagem}`,
+    questions: [],
+    levels: [],
+  };
 
-function passarPagTres(mudar) {
-  mudar = document.querySelector(".pagina2-criacao");
-  mudar.classList.add("desativado");
+  const primeiraPergunta = document.getElementById("edit-pergunta");
 
-  mudar = document.querySelector(".pagina3-criacao");
-  mudar.classList.remove("desativado");
-
-  const todasPerguntas = document.querySelectorAll(".pergunta");
-  let perguntas = undefined;
-
-  for (let i = 0; i < todasPerguntas.length; i++) {
-    perguntas = {
-      title: `${todasPerguntas[i].querySelectorAll("input")[0].value}`,
-      color: `${todasPerguntas[i].querySelectorAll("input")[1].value}`,
-      answers: [
-        {
-          text: `${todasPerguntas[i].querySelectorAll("input")[2].value}`,
-          image: `${todasPerguntas[i].querySelectorAll("input")[3].value}`,
-          isCorrectAnswer: true,
-        },
-        {
-          text: `${todasPerguntas[i].querySelectorAll("input")[4].value}`,
-          image: `${todasPerguntas[i].querySelectorAll("input")[5].value}`,
-          isCorrectAnswer: false,
-        },
-      ],
-    };
-
-    if (
-      todasPerguntas[i].querySelectorAll("input")[6].value &&
-      todasPerguntas[i].querySelectorAll("input")[7].value !== ""
-    ) {
-      perguntas.answers.push({
-        text: `${todasPerguntas[i].querySelectorAll("input")[6].value}`,
-        image: `${todasPerguntas[i].querySelectorAll("input")[7].value}`,
-        isCorrectAnswer: false,
-      });
-    }
-
-    if (
-      todasPerguntas[i].querySelectorAll("input")[8].value &&
-      todasPerguntas[i].querySelectorAll("input")[9].value !== ""
-    ) {
-      perguntas.answers.push({
-        text: `${todasPerguntas[i].querySelectorAll("input")[8].value}`,
-        image: `${todasPerguntas[i].querySelectorAll("input")[9].value}`,
-        isCorrectAnswer: false,
-      });
-    }
-  }
-  quiz.questions.push(perguntas);
-
-  console.log(quiz);
+  abrirPergunta(primeiraPergunta);
 }
 
 function abrirPergunta(elemento) {
@@ -109,32 +76,202 @@ function abrirPergunta(elemento) {
   const pergunta = elemento.parentNode.querySelector(".nome-pergunta");
 
   perguntaFechada.innerHTML = `<div class='pergunta'>
-  <div class="pergunta-infos">${pergunta.innerHTML}
-                <div class="pergunta-input margin-top-12px">
-                    <input type="text" placeholder="Texto da pergunta" id='texto-pergunta'>
-                    <input type="text" placeholder="Cor de fundo da pergunta" id='cor-pergunta'>
-                </div>
-                <span class="margin-top-28px">Resposta correta</span>
-                <div class="pergunta-input margin-top-24px">
-                    <input type="text" placeholder="Resposta correta" id='resposta-correta'>
-                    <input type="text" placeholder="URL da imagem" id='img-correta'>
-                </div>
-                <span class="margin-top-28px">Respostas incorretas</span>
-                <div class="pergunta-input margin-top-14px">
-                    <input type="text" placeholder="Resposta incorreta 1" id='resposta-incorreta1'>
-                    <input type="text" placeholder="URL da imagem 1" id='img-incorreta1'>
-                </div>
-                <div class="pergunta-input margin-top-33px">
-                    <input type="text" placeholder="Resposta incorreta 2" id='resposta-incorreta2'>
-                    <input type="text" placeholder="URL da imagem 2" id='img-incorreta2'>
-                </div>
-                <div class="pergunta-input margin-top-33px">
-                    <input type="text" placeholder="Resposta incorreta 3" id='resposta-incorreta3'>
-                    <input type="text" placeholder="URL da imagem 3" id='img-incorreta3'>
-                </div>     
-                </div>                
-                `;
+    <div class="pergunta-infos">${pergunta.innerHTML}
+                  <div class="pergunta-input margin-top-12px">
+                      <input type="text" placeholder="Texto da pergunta" id='texto-pergunta'>
+                      <input type="text" placeholder="Cor de fundo da pergunta" id='cor-pergunta'>
+                  </div>
+                  <span class="margin-top-28px">Resposta correta</span>
+                  <div class="pergunta-input margin-top-24px">
+                      <input type="text" placeholder="Resposta correta" id='resposta-correta'>
+                      <input type="text" placeholder="URL da imagem" id='img-correta'>
+                  </div>
+                  <span class="margin-top-28px">Respostas incorretas</span>
+                  <div class="pergunta-input margin-top-14px">
+                      <input type="text" placeholder="Resposta incorreta 1" id='resposta-incorreta1'>
+                      <input type="text" placeholder="URL da imagem 1" id='img-incorreta1'>
+                  </div>
+                  <div class="pergunta-input margin-top-33px">
+                      <input type="text" placeholder="Resposta incorreta 2" id='resposta-incorreta2'>
+                      <input type="text" placeholder="URL da imagem 2" id='img-incorreta2'>
+                  </div>
+                  <div class="pergunta-input margin-top-33px">
+                      <input type="text" placeholder="Resposta incorreta 3" id='resposta-incorreta3'>
+                      <input type="text" placeholder="URL da imagem 3" id='img-incorreta3'>
+                  </div>     
+                  </div>                
+                  `;
 }
+
+function passarPagTres(mudar) {
+  console.log(qtdeNiveis);
+
+  if (document.querySelector(".pergunta-fechada") !== null) {
+    return alert("Por favor, preencha todos os campos");
+  }
+
+  const todasPerguntas = document.querySelectorAll(".pergunta");
+  let perguntas = undefined;
+
+  for (let i = 0; i < todasPerguntas.length; i++) {
+    const input = todasPerguntas[i].querySelectorAll("input");
+
+    if (
+      input[0].value.length < 20 ||
+      input[0].value === "" ||
+      input[1].value.length !== 7 ||
+      input[1].value.startsWith("#") === false ||
+      input[1].value.replace(/[^a-fA-f0-9#]/g, "") !== input[1].value ||
+      input[2].value === "" ||
+      input[4] === "" ||
+      input[5] === ""
+    ) {
+      return alert("Por favor, preencha os dados corretamente");
+    }
+
+    perguntas = {
+      title: `${input[0].value}`,
+      color: `${input[1].value}`,
+      answers: [
+        {
+          text: `${input[2].value}`,
+          image: `${input[3].value}`,
+          isCorrectAnswer: true,
+        },
+        {
+          text: `${input[4].value}`,
+          image: `${input[5].value}`,
+          isCorrectAnswer: false,
+        },
+      ],
+    };
+
+    if (input[6].value && input[7].value !== "") {
+      perguntas.answers.push({
+        text: `${input[6].value}`,
+        image: `${input[7].value}`,
+        isCorrectAnswer: false,
+      });
+    }
+
+    if (input[8].value && input[9].value !== "") {
+      perguntas.answers.push({
+        text: `${input[8].value}`,
+        image: `${input[9].value}`,
+        isCorrectAnswer: false,
+      });
+    }
+    quiz.questions.push(perguntas);
+  }
+
+  console.log(quiz);
+
+  const criarNiveis = document.querySelector(".pagina3-criacao");
+
+  for (let i = 0; i < qtdeNiveis; i++) {
+    criarNiveis.innerHTML += `
+        <div class="nivel-fechado">
+            <span class='nome-nivel'>Nível ${i + 1}</span>
+            <img src="./ícones/editar.png" alt="" onclick='abrirNivel(this)' id='edit-nivel'>
+        </div>
+    `;
+  }
+
+  criarNiveis.innerHTML +=
+    "<button onclick='finalizarCriacaoQuiz()'>Finalizar Quizz</button>";
+
+  mudar = document.querySelector(".pagina2-criacao");
+  mudar.classList.add("desativado");
+
+  mudar = document.querySelector(".pagina3-criacao");
+  mudar.classList.remove("desativado");
+
+  const primeiroNivel = document.getElementById("edit-nivel");
+  abrirNivel(primeiroNivel);
+}
+
+function abrirNivel(elemento) {
+  const nivelFechado = elemento.parentNode;
+  nivelFechado.classList.remove("nivel-fechado");
+
+  const nomeNivel = nivelFechado.querySelector(".nome-nivel");
+
+  nivelFechado.innerHTML = `
+        <div class='nivel'>
+            <div class="nivel-infos">${nomeNivel.innerHTML}
+                <div class="nivel-input">
+                    <input type="text" placeholder="Título do nível">
+                    <input type="text" placeholder="% de acerto mínima" class='porcentagem'>
+                    <input type="text" placeholder="URL da imagem do nível">
+                    <input type="text" placeholder="Descrição do nível">
+                </div>
+            </div>
+        </div>`;
+}
+
+function finalizarCriacaoQuiz() {
+  if (document.querySelector(".nivel-fechado") !== null) {
+    return alert("Por favor, preencha todos os campos");
+  }
+
+  const todosNiveis = document.querySelectorAll(".nivel");
+  let niveis = undefined;
+
+  const porcentagem = document.querySelectorAll(".porcentagem");
+  const porcentagens = [];
+
+  for (let u = 0; u < todosNiveis.length; u++) {
+    porcentagens.push(porcentagem[u].value);
+  }
+
+  console.log(porcentagens);
+
+  for (let i = 0; i < todosNiveis.length; i++) {
+    const input = todosNiveis[i].querySelectorAll("input");
+
+    if (
+      input[0].value.length < 10 ||
+      isNaN(input[1].value) ||
+      input[1].value < 0 ||
+      input[1].value > 100 ||
+      input[3].value.length < 30 ||
+      porcentagens.includes("0") === false
+    ) {
+      return alert("Por favor, preencha os dados corretamente");
+    }
+
+    niveis = {
+      title: `${input[0].value}`,
+      image: `${input[2].value}`,
+      text: `${input[3].value}`,
+      minValue: Number(input[1].value),
+    };
+
+    quiz.levels.push(niveis);
+  }
+
+  console.log(quiz);
+
+  document.querySelector(".pagina3-criacao").classList.add("desativado");
+  document.querySelector(".pagina4-criacao").classList.remove("desativado");
+
+  document
+    .querySelector(".pagina4-img img")
+    .setAttribute("src", `${urlImagem}`);
+
+  document.querySelector(".titulo-quiz").innerHTML = `${titulo}`;
+
+  const promessa = axios.post(
+    "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes",
+    quiz
+  );
+  promessa.then(sucessoEnvioQuiz);
+}
+
+function sucessoEnvioQuiz() {
+  alert("quiz enviado nessa porra");
+}
+
 
 function puxaQuizz() {
   const promise = axios.get(
