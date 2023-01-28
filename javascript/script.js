@@ -150,6 +150,14 @@ function passarPagTres(mudar) {
       return alert("Por favor, preencha os dados corretamente");
     }
 
+    if((input[7].value !== '' && ((input[7].value.startsWith("http://") === false &&
+    input[7].value.startsWith("https://") === false) ||
+  input[7].value.includes(".com") === false)) || (input[9].value !== '' && ((input[9].value.startsWith("http://") === false &&
+  input[9].value.startsWith("https://") === false) ||
+input[9].value.includes(".com") === false))){
+    return alert("Por favor, preencha os dados corretamente");
+  }
+
     perguntas = {
       title: `${input[0].value}`,
       color: `${input[1].value}`,
