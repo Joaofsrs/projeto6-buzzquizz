@@ -2,13 +2,13 @@ let quiz = undefined;
 let Quizz_atual;
 let quantidade_Quizz;
 let numero_Acertos = 0;
-
-let idQuiz;
-
 let titulo = undefined;
 let urlImagem = undefined;
 let qtdePerguntas = undefined;
 let qtdeNiveis = undefined;
+let arrayIds = [];
+
+let idQuiz;
 
 function criarQuizz(mudar) {
   mudar = document.querySelector(".container_principal");
@@ -24,7 +24,11 @@ function criarQuizz(mudar) {
   document.getElementById("p1-url").value = "";
   document.getElementById("qtde-perguntas").value = "";
   document.getElementById("qtde-niveis").value = "";
+
+
 }
+
+
 
 function passarPagDois(mudar) {
   titulo = document.getElementById("titulo").value;
@@ -60,9 +64,8 @@ function passarPagDois(mudar) {
 
   for (let i = 0; i < qtdePerguntas; i++) {
     criarPerguntas.innerHTML += `
-    <div class="pergunta-fechada"><span class='nome-pergunta'>Pergunta ${
-      i + 1
-    }</span>
+    <div class="pergunta-fechada"><span class='nome-pergunta'>Pergunta ${i + 1
+      }</span>
     <img src="./ícones/editar.png" alt="" onclick='abrirPergunta(this)' id='edit-pergunta'>
     </div>
     `;
@@ -294,9 +297,17 @@ function finalizarCriacaoQuiz() {
 }
 
 function sucessoEnvioQuiz(quiz) {
+  
+
   console.log(quiz.data.id);
 
   idQuiz = quiz.data.id;
+
+  arrayIds.push(idQuiz);
+  
+  console.log(arrayIds[0]);
+  
+  pegaMensagens();
 }
 
 function acessarQuiz() {
@@ -307,45 +318,65 @@ function acessarQuiz() {
   pegaQuizz(idQuiz);
 }
 
+function voltaHomeButton() {
+
+  document.querySelector('.pagina4-criacao').classList.add('desativado');
+  document.querySelector('.container-criacao').classList.add('desativado');
+  document.querySelector('.container_principal').classList.remove('desativado');
+
+
+}
+
+
+
 
 function puxaQuizz() {
-    const promise = axios.get(
-        "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes"
-    );
+  const promise = axios.get(
+    "https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes"
+  );
 
-    promise.then(percorre);
+  promise.then(percorre);
 }
 
 function sucessoQuizz(promise) {
-    console.log(promise);
+  console.log(promise);
 }
 
 function percorre(promise) {
-    let ArmazenaQuizz = document.querySelector(".agrupaQuizzes");
-    ArmazenaQuizz.innerHTML = '';
-    for (i = 0; i < promise.data.length; i++) {
-        let id = promise.data[i].id;
-        let titulo = promise.data[i].title;
-        let imagem = promise.data[i].image;
-
-        ArmazenaQuizz.innerHTML += `<div id="${id}" class="quizz" onclick="getQuizz(this);"><img src="${imagem}" alt="">
-            <h3> ${titulo}</h3>
-        </div>`;
+  let ArmazenaQuizz = document.querySelector(".agrupaQuizzes");
+  ArmazenaQuizz.innerHTML = '<div class="texto" onclick="puxaQuizz()"><h2>Todos os Quizzes</h2></div>';
+  for (i = 0; i < promise.data.length; i++) {
+    let flag = 0;
+    for(let j = 0; j < arrayIds.length; j++){
+      if(promise.data[i].id === arrayIds[j]){
+        flag = 1;
+      }
     }
+    if(flag === 0){
+      let id = promise.data[i].id;
+      let titulo = promise.data[i].title;
+      let imagem = promise.data[i].image;
+
+      ArmazenaQuizz.innerHTML += `<div id="${id}" class="quizz" onclick="getQuizz(this);"><img src="${imagem}" alt="">
+              <h3> ${titulo}</h3>
+          </div>`;
+    }
+    flag = 0;
+  }
 }
 
 function verificaFim() {
-    const nuemroDeRespondidos = document.querySelectorAll(".respondido");
-    if (nuemroDeRespondidos.length === quantidade_Quizz) {
-        const pocento_acerto = Math.round((numero_Acertos / quantidade_Quizz) * 100);
-        let level_selecionado;
-        for (let i = 0; i < Quizz_atual.data.levels.length; i++) {
-            if (Quizz_atual.data.levels[i].minValue <= pocento_acerto) {
-                level_selecionado = Quizz_atual.data.levels[i];
-            }
-        }
-        const tela_quizz = document.querySelector(".corpo_quizz");
-        tela_quizz.innerHTML += `
+  const nuemroDeRespondidos = document.querySelectorAll(".respondido");
+  if (nuemroDeRespondidos.length === quantidade_Quizz) {
+    const pocento_acerto = Math.round((numero_Acertos / quantidade_Quizz) * 100);
+    let level_selecionado;
+    for (let i = 0; i < Quizz_atual.data.levels.length; i++) {
+      if (Quizz_atual.data.levels[i].minValue <= pocento_acerto) {
+        level_selecionado = Quizz_atual.data.levels[i];
+      }
+    }
+    const tela_quizz = document.querySelector(".corpo_quizz");
+    tela_quizz.innerHTML += `
         <div class="resultado_quizz">
             <div class="top_resultado">
                 <h3>${pocento_acerto}% de acerto: ${level_selecionado.title}</h3>
@@ -359,53 +390,53 @@ function verificaFim() {
             <button class="reiniciar_quizz" onclick="reiniciaQuizz();">Reiniciar Quizz</button>
             <button class="voltar_home" onclick="voltaHome();">Voltar pra home</button>
         </div>
-        `
-        const resultado = document.querySelector(".resultado_quizz");
+        `;
+    const resultado = document.querySelector(".resultado_quizz");
+    setTimeout(function () {
+      resultado.scrollIntoView();
+    }, 2000);
+  } else {
+    const listaRespondidos = document.querySelectorAll(".responder_quizz");
+    for (let i = 0; i < listaRespondidos.length; i++) {
+      if (!listaRespondidos[i].classList.contains("respondido")) {
         setTimeout(function () {
-            resultado.scrollIntoView();
+          listaRespondidos[i].scrollIntoView();
         }, 2000);
-    } else {
-        const listaRespondidos = document.querySelectorAll(".responder_quizz");
-        for (let i = 0; i < listaRespondidos.length; i++) {
-            if (!listaRespondidos[i].classList.contains("respondido")) {
-                setTimeout(function () {
-                    listaRespondidos[i].scrollIntoView();
-                }, 2000);
-                break;
-            }
-        }
+        break;
+      }
     }
+  }
 }
 
 function verificaClick(elementoClicado) {
-    if (!elementoClicado.parentNode.parentNode.classList.contains("respondido")) {
-        elementoClicado.parentNode.parentNode.classList.add("respondido");
-        const listaElementos = elementoClicado.parentNode.querySelectorAll(".opcao");
-        if (elementoClicado.classList.contains("certa")) {
-            numero_Acertos++;
-        }
-        for (let i = 0; i < listaElementos.length; i++) {
-            if (listaElementos[i].classList.contains("certa")) {
-                listaElementos[i].style = "color:#009C22";
-            } else {
-                listaElementos[i].style = "color:#FF4B4B";
-            }
-            if (listaElementos[i] !== elementoClicado) {
-                listaElementos[i].classList.add("opaco");
-            }
-        }
-        verificaFim();
+  if (!elementoClicado.parentNode.parentNode.classList.contains("respondido")) {
+    elementoClicado.parentNode.parentNode.classList.add("respondido");
+    const listaElementos = elementoClicado.parentNode.querySelectorAll(".opcao");
+    if (elementoClicado.classList.contains("certa")) {
+      numero_Acertos++;
     }
+    for (let i = 0; i < listaElementos.length; i++) {
+      if (listaElementos[i].classList.contains("certa")) {
+        listaElementos[i].style = "color:#009C22";
+      } else {
+        listaElementos[i].style = "color:#FF4B4B";
+      }
+      if (listaElementos[i] !== elementoClicado) {
+        listaElementos[i].classList.add("opaco");
+      }
+    }
+    verificaFim();
+  }
 }
 
 function carregaQuizz(Quizz) {
-    Quizz_atual = Quizz;
-    numero_Acertos = 0;
-    const tela_quizz = document.querySelector(".container_quizz");
-    tela_quizz.innerHTML = '';
-    let elemento_html = '';
+  Quizz_atual = Quizz;
+  numero_Acertos = 0;
+  const tela_quizz = document.querySelector(".container_quizz");
+  tela_quizz.innerHTML = '';
+  let elemento_html = '';
 
-    tela_quizz.innerHTML += `
+  tela_quizz.innerHTML += `
         <header>
             <h1>BuzzQuizz</h1>
         </header>
@@ -419,62 +450,130 @@ function carregaQuizz(Quizz) {
         </div>
     `;
 
-    const corpo_pg = document.querySelector(".corpo_quizz");
+  const corpo_pg = document.querySelector(".corpo_quizz");
 
-    for (let i = 0; i < Quizz_atual.data.questions.length; i++) {
-        elemento_html += `
+  for (let i = 0; i < Quizz_atual.data.questions.length; i++) {
+    elemento_html += `
         <div class="responder_quizz">
             <div class="top_responder" style="background-color: ${Quizz_atual.data.questions[i].color};">
                 <h3>${Quizz_atual.data.questions[i].title}</h3>
             </div>
             <div class="opcoes">
         `;
-        for (let j = 0; j < Quizz_atual.data.questions[i].answers.length; j++) {
-            let isCorrect = 'errada';
-            if (Quizz_atual.data.questions[i].answers[j].isCorrectAnswer) {
-                isCorrect = "certa";
-            }
-            elemento_html += `
-                <div class="opcao ${isCorrect}" onclick="verificaClick(this);">
-                    <img src="${Quizz_atual.data.questions[i].answers[j].image}">
-                    <p>${Quizz_atual.data.questions[i].answers[j].text}</p>
-                </div>
-            `;
-        }
-        elemento_html += `
+    let vector_answers = Quizz_atual.data.questions[i].answers;
+    vector_answers.sort(function () { return Math.random() - 0.5 });
+    for (let j = 0; j < vector_answers.length; j++) {
+      let isCorrect = 'errada';
+      if (vector_answers[j].isCorrectAnswer) {
+        isCorrect = "certa";
+      }
+      elemento_html +=`
+          <div class="opcao ${isCorrect}" onclick="verificaClick(this);">
+              <img src="${vector_answers[j].image}">
+                  <p>${vector_answers[j].text}</p>
+          </div>
+          `;
+    }
+    elemento_html += `
             </div>
         </div>
         `;
-        corpo_pg.innerHTML += elemento_html;
-        elemento_html = '';
-    }
+    corpo_pg.innerHTML += elemento_html;
+    elemento_html = '';
+  }
 
-    quantidade_Quizz = document.querySelectorAll(".responder_quizz").length;
+  quantidade_Quizz = document.querySelectorAll(".responder_quizz").length;
 }
 function reiniciaQuizz() {
-    const scroll = document.querySelector(".nome_quizz");
-    scroll.scrollIntoView();
-    carregaQuizz(Quizz_atual);
+  const scroll = document.querySelector(".nome_quizz");
+  scroll.scrollIntoView();
+  carregaQuizz(Quizz_atual);
 }
-function voltaHome(){
-    console.log("passou");
-    const containerQuizz = document.querySelector(".container_quizz");
-    containerQuizz.classList.add("desativado");
-    const paginaPrincipal = document.querySelector(".container_principal");
-    paginaPrincipal.classList.remove("desativado");
-    puxaQuizz();
+function voltaHome() {
+  const containerQuizz = document.querySelector(".container_quizz");
+  containerQuizz.classList.add("desativado");
+  const paginaPrincipal = document.querySelector(".container_principal");
+  paginaPrincipal.classList.remove("desativado");
+  puxaQuizz();
 }
 function pegaQuizz(Element_id) {
-    const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${Element_id}`);
-    promessa.then(carregaQuizz);
+  const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${Element_id}`);
+  promessa.then(carregaQuizz);
 }
 
+function pegaQuizzUser() {
+  const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuiz}`)
+
+  promessa.then(sucessoQuizzUser)
+}
+
+function pegaMensagens(){
+  const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes`);
+
+  promessa.then(listadeQuizz);
+}
+
+function listadeQuizz(lista) {
+  console.log(lista.data[0].id);
+  console.log(arrayIds[0]);
+  document.querySelector('.boxCriarQuizz').classList.add('desativado');
+  const boxQuizzUser = document.querySelector('.boxQuizzUser');
+  boxQuizzUser.classList.remove('desativado');
+
+  boxQuizzUser.innerHTML = `
+    <h4>Seus Quizzes</h4>
+    <ion-icon  name="add-circle" onclick="criarQuizz()"></ion-icon>
+    `;
+
+  for(let i = 0; i < arrayIds.length; i++){
+    for(let j = 0; j < lista.data.length; j++){
+      console.log("entrou aqui");
+      console.log(arrayIds[i]);
+      if(lista.data[j].id == arrayIds[i]){
+        boxQuizzUser.innerHTML += `
+            <div id="${lista.data[j].id}" class="quizzUser" onclick="getQuizz(this);">
+            <img src="${lista.data[j].image}" alt="">
+            <h3> ${lista.data[j].title}</h3>
+            </div>
+            `;
+      }
+    }
+  }
+  puxaQuizz();
+}
+
+function sucessoQuizzUser(quizzUser) {
+  
+
+  document.querySelector('.boxCriarQuizz').classList.add('desativado');
+  const boxQuizzUser = document.querySelector('.boxQuizzUser');
+  boxQuizzUser.classList.remove('desativado');
+
+  let img = quizzUser.data.image;
+  let titulo = quizzUser.data.title;
+
+  for(let  i = 0; i < arrayIds.length; i++){
+
+  }
+
+  boxQuizzUser.innerHTML += `
+    <div class="quizzUser">
+    <img src="${img}" alt="">
+    <h3> ${titulo}</h3>
+    </div>
+    `
+
+
+}
+
+
+
 function getQuizz(thisElement) {
-    const tela_principal = document.querySelector(".container_principal");
-    tela_principal.classList.add("desativado");
-    const tela_quizz = document.querySelector(".container_quizz");
-    tela_quizz.classList.remove("desativado");
-    pegaQuizz(thisElement.id);
+  const tela_principal = document.querySelector(".container_principal");
+  tela_principal.classList.add("desativado");
+  const tela_quizz = document.querySelector(".container_quizz");
+  tela_quizz.classList.remove("desativado");
+  pegaQuizz(thisElement.id);
 }
 
 puxaQuizz();
