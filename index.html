@@ -15,10 +15,10 @@
     <div class="container_principal">
 
         <header>
-            <h1>BuzzQuizz</h1>
+            <h1 >BuzzQuizz</h1>
         </header>
 
-        <div class="boxCriarQuizz">
+        <div class="boxCriarQuizz ">
             <h3>Você não criou nenhum quizz ainda :(</h3>
 
         
@@ -26,9 +26,14 @@
             <button onclick="criarQuizz()">Criar Quizz</button>
 
         </div>
+        <div class="boxQuizzUser desativado">
+          <h4>Seus Quizzes</h4>
+          <ion-icon  name="add-circle" onclick="criarQuizz()"></ion-icon>
+    
+        </div>
       
         <div class="agrupaQuizzes">
-            
+  
         </div>
     </div>
 
@@ -53,7 +58,7 @@
                 <div class="titulo-quiz">Adicionar título do quizz aqui pelo js</div>
             </div>
             <button class="acessar" onclick="acessarQuiz()">Acessar Quizz</button>
-            <button class="home">Voltar para home</button>
+            <button class="home" onclick="voltaHomeButton()">Voltar para home</button>
         </div>
     </div>
 
@@ -61,6 +66,7 @@
     <div class="container_quizz desativado">
                 
     </div>
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./javascript/script.js"></script>
 </body>
