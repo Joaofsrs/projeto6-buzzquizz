@@ -502,6 +502,8 @@ function voltaHome() {
   containerQuizz.classList.add("desativado");
   const paginaPrincipal = document.querySelector(".container_principal");
   paginaPrincipal.classList.remove("desativado");
+  const scroll = document.querySelector(".boxCriarQuizz");
+  scroll.scrollIntoView();
   puxaQuizz();
 }
 function pegaQuizz(Element_id) {
@@ -573,8 +575,6 @@ function sucessoQuizzUser(quizzUser) {
 
 
 }
-
-
 
 function getQuizz(thisElement) {
   const tela_principal = document.querySelector(".container_principal");
