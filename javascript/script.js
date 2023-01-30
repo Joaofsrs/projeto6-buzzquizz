@@ -302,7 +302,7 @@ function sucessoQuizz(promise) {
 
 function percorre(promise) {
     let ArmazenaQuizz = document.querySelector(".agrupaQuizzes");
-    ArmazenaQuizz.innerHTML = '';
+    ArmazenaQuizz.innerHTML = '<div class="texto" onclick="puxaQuizz()"><h2>Todos os Quizzes</h2></div>';
     for (i = 0; i < promise.data.length; i++) {
         let id = promise.data[i].id;
         let titulo = promise.data[i].title;
@@ -409,15 +409,17 @@ function carregaQuizz(Quizz) {
             </div>
             <div class="opcoes">
         `;
-        for (let j = 0; j < Quizz_atual.data.questions[i].answers.length; j++) {
+        let vector_answers = Quizz_atual.data.questions[i].answers;
+        vector_answers.sort(function(){return Math.random() - 0.5})
+        for (let j = 0; j < vector_answers.length; j++) {
             let isCorrect = 'errada';
-            if (Quizz_atual.data.questions[i].answers[j].isCorrectAnswer) {
+            if (vector_answers[j].isCorrectAnswer) {
                 isCorrect = "certa";
             }
             elemento_html += `
                 <div class="opcao ${isCorrect}" onclick="verificaClick(this);">
-                    <img src="${Quizz_atual.data.questions[i].answers[j].image}">
-                    <p>${Quizz_atual.data.questions[i].answers[j].text}</p>
+                    <img src="${vector_answers[j].image}">
+                    <p>${vector_answers[j].text}</p>
                 </div>
             `;
         }
